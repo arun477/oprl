@@ -6,7 +6,7 @@
 SERVER="dev"
 PORTS=(
     "8001:localhost:8001"  # API
-    # "3000:localhost:3000"  # Frontend
+    "8000:localhost:8000"  # Frontend
     # "5433:localhost:5433"  # Postgres
     # "9090:localhost:9090"  # Prometheus
     # "3100:localhost:3100"  # Grafana
@@ -43,6 +43,7 @@ start_tunnel() {
         echo ""
         echo "Access services at:"
         echo "  API:      http://localhost:8001"
+        echo "  Frontend:      http://localhost:8000"
     else
         echo "Failed to start tunnel"
         return 1
