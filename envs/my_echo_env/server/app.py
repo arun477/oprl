@@ -38,7 +38,7 @@ except Exception as e:  # pragma: no cover
 try:
     from ..models import CounterAction, CounterObservation
     from .counter_env_environment import CounterEnvironment
-except ModuleNotFoundError:
+except (ImportError, ModuleNotFoundError):
     from models import CounterAction, CounterObservation
     from server.counter_env_environment import CounterEnvironment
 
