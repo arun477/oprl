@@ -45,38 +45,18 @@ class MyEchoEnv(
     """
 
     def _step_payload(self, action: CounterAction) -> Dict:
-        """
-        Convert CounterAction to JSON payload for step message.
-
-        Args:
-            action: CounterAction instance
-
-        Returns:
-            Dictionary representation suitable for JSON encoding
-        """
-        return {
-            "message": action.message,
-        }
-
+          return {
+          "action": action.action,
+      }
+          
     def _parse_result(self, payload: Dict) -> StepResult[CounterObservation]:
-        """
-        Parse server response into StepResult[CounterObservation].
-
-        Args:
-            payload: JSON response data from server
-
-        Returns:
-            StepResult with CounterObservation
-        """
         obs_data = payload.get("observation", {})
         observation = CounterObservation(
-            echoed_message=obs_data.get("echoed_message", ""),
-            message_length=obs_data.get("message_length", 0),
+            count=obs_data.get("count", 0),
             done=payload.get("done", False),
             reward=payload.get("reward"),
             metadata=obs_data.get("metadata", {}),
         )
-
         return StepResult(
             observation=observation,
             reward=payload.get("reward"),
