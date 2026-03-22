@@ -7,10 +7,10 @@
 """My Echo Env Environment."""
 
 from .client import MyEchoEnv
-from .models import MyEchoAction, MyEchoObservation
+from .models import CounterObservation, CounterAction
 
 __all__ = [
-    "MyEchoAction",
-    "MyEchoObservation",
+    "CounterAction",
+    "CounterObservation",
     "MyEchoEnv",
 ]
