@@ -14,14 +14,8 @@ from openenv.core.env_server.types import Action, Observation
 from pydantic import Field
 
 
-class MyEchoAction(Action):
-    """Action for the My Echo Env environment - just a message to echo."""
+class CounterAction(Action):
+    action: str = Field(..., description="'increment' or 'decrement'")
 
-    message: str = Field(..., description="Message to echo back")
-
-
-class MyEchoObservation(Observation):
-    """Observation from the My Echo Env environment - the echoed message."""
-
-    echoed_message: str = Field(default="", description="The echoed message")
-    message_length: int = Field(default=0, description="Length of the echoed message")
+class CounterObservation(Observation):
+    coutn: int = Field(default=0, description="current counter value")
