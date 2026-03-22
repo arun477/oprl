@@ -12,11 +12,11 @@ from openenv.core import EnvClient
 from openenv.core.client_types import StepResult
 from openenv.core.env_server.types import State
 
-from .models import MyEchoAction, MyEchoObservation
+from .models import CounterAction, CounterObservation
 
 
 class MyEchoEnv(
-    EnvClient[MyEchoAction, MyEchoObservation, State]
+    EnvClient[CounterAction, CounterObservation, State]
 ):
     """
     Client for the My Echo Env Environment.
@@ -31,7 +31,7 @@ class MyEchoEnv(
         ...     result = client.reset()
         ...     print(result.observation.echoed_message)
         ...
-        ...     result = client.step(MyEchoAction(message="Hello!"))
+        ...     result = client.step(CounterAction(message="Hello!"))
         ...     print(result.observation.echoed_message)
 
     Example with Docker:
@@ -39,17 +39,17 @@ class MyEchoEnv(
         >>> client = MyEchoEnv.from_docker_image("my_echo_env-env:latest")
         >>> try:
         ...     result = client.reset()
-        ...     result = client.step(MyEchoAction(message="Test"))
+        ...     result = client.step(CounterAction(message="Test"))
         ... finally:
         ...     client.close()
     """
 
-    def _step_payload(self, action: MyEchoAction) -> Dict:
+    def _step_payload(self, action: CounterAction) -> Dict:
         """
-        Convert MyEchoAction to JSON payload for step message.
+        Convert CounterAction to JSON payload for step message.
 
         Args:
-            action: MyEchoAction instance
+            action: CounterAction instance
 
         Returns:
             Dictionary representation suitable for JSON encoding
@@ -58,18 +58,18 @@ class MyEchoEnv(
             "message": action.message,
         }
 
-    def _parse_result(self, payload: Dict) -> StepResult[MyEchoObservation]:
+    def _parse_result(self, payload: Dict) -> StepResult[CounterObservation]:
         """
-        Parse server response into StepResult[MyEchoObservation].
+        Parse server response into StepResult[CounterObservation].
 
         Args:
             payload: JSON response data from server
 
         Returns:
-            StepResult with MyEchoObservation
+            StepResult with CounterObservation
         """
         obs_data = payload.get("observation", {})
-        observation = MyEchoObservation(
+        observation = CounterObservation(
             echoed_message=obs_data.get("echoed_message", ""),
             message_length=obs_data.get("message_length", 0),
             done=payload.get("done", False),

@@ -6,6 +6,6 @@
 
 """My Echo Env environment server components."""
 
-from .my_echo_env_environment import MyEchoEnvironment
+from .counter_env_environment import CounterEnvironment
 
-__all__ = ["MyEchoEnvironment"]
+__all__ = ["CounterEnvironment"]

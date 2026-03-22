@@ -18,4 +18,4 @@ class CounterAction(Action):
     action: str = Field(..., description="'increment' or 'decrement'")
 
 class CounterObservation(Observation):
-    coutn: int = Field(default=0, description="current counter value")
+    count: int = Field(default=0, description="current counter value")

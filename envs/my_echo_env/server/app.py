@@ -36,18 +36,18 @@ except Exception as e:  # pragma: no cover
     ) from e
 
 try:
-    from ..models import MyEchoAction, MyEchoObservation
-    from .my_echo_env_environment import MyEchoEnvironment
+    from ..models import CounterAction, CounterObservation
+    from .counter_env_environment import CounterEnvironment
 except ModuleNotFoundError:
-    from models import MyEchoAction, MyEchoObservation
-    from server.my_echo_env_environment import MyEchoEnvironment
+    from models import CounterAction, CounterObservation
+    from server.counter_env_environment import CounterEnvironment
 
 
 # Create the app with web interface and README integration
 app = create_app(
-    MyEchoEnvironment,
-    MyEchoAction,
-    MyEchoObservation,
+    CounterEnvironment,
+    CounterAction,
+    CounterObservation,
     env_name="my_echo_env",
     max_concurrent_envs=1,  # increase this number to allow more concurrent WebSocket sessions
 )
