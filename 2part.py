@@ -1,23 +1,28 @@
 import asyncio
-from echo_env import EchoAction, EchoEnv
+from echo_env import EchoEnv, CallToolAction, ListToolsAction
 
 async def main():
-    # Create environment from Docker image
-    client = await EchoEnv.from_docker_image("echo-env:latest")
+    # Option 1: Use hosted HuggingFace space (no Docker needed)
+    async with EchoEnv(base_url="https://openenv-echo-env.hf.space") as client:
 
-    async with client:
         # Reset
         result = await client.reset()
-        print(f"Reset: {result.observation.echoed_message}")
+        print(f"Reset: {result}")
 
-        # Send multiple messages
+        # List available tools first
+        tools = await client.step(ListToolsAction())
+        print(f"Available tools: {tools}")
+
+        # Send multiple messages using echo_message tool
         messages = ["Hello, World!", "Testing echo", "Final message"]
 
         for msg in messages:
-            result = await client.step(EchoAction(message=msg))
+            result = await client.step(CallToolAction(
+                name="echo_message",
+                arguments={"message": msg}
+            ))
             print(f"Sent: '{msg}'")
-            print(f"  → Echoed: '{result.observation.echoed_message}'")
-            print(f"  → Length: {result.observation.message_length}")
+            print(f"  → Result: {result}")
             print(f"  → Reward: {result.reward}")
 
 asyncio.run(main())
