@@ -1,15 +1,25 @@
-import asyncio
-from echo_env import EchoEnv, CallToolAction
+import requests
 
-async def main():
-    async with EchoEnv(base_url="http://localhost:8001") as client:
+BASE_URL = "http://localhost:8001"
 
-        result = await client.reset()
-        print(f"Reset: {result}")
+# Reset
+res = requests.post(f"{BASE_URL}/reset", json={})
+print("Reset:", res.json())
 
-        messages = ["Hello, World!", "Testing echo", "Final message"]
-        for msg in messages:
-            result = await client.call_tool("echo_message", message=msg)
-            print(f"Sent: '{msg}' → Result: {result}")
+# Check action schema
+schema = requests.get(f"{BASE_URL}/schema").json()
+print("Action schema:", schema["action"])
 
-asyncio.run(main())
+# Step with a message
+messages = ["Hello, World!", "Testing echo", "Final message"]
+for msg in messages:
+    res = requests.post(f"{BASE_URL}/step", json={"action": {"message": msg}})
+    data = res.json()
+    print(f"Sent: '{msg}'")
+    print(f"  → Observation: {data['observation']}")
+    print(f"  → Reward: {data['reward']}")
+    print(f"  → Done: {data['done']}")
+
+# Check state
+state = requests.get(f"{BASE_URL}/state").json()
+print("State:", state)

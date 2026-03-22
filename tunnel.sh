@@ -5,7 +5,7 @@
 
 SERVER="dev"
 PORTS=(
-    "8000:localhost:8000"  # API
+    "8001:localhost:8001"  # API
     # "3000:localhost:3000"  # Frontend
     # "5433:localhost:5433"  # Postgres
     # "9090:localhost:9090"  # Prometheus
@@ -42,7 +42,7 @@ start_tunnel() {
         echo "Tunnel started (PID: $PID)"
         echo ""
         echo "Access services at:"
-        echo "  API:      http://localhost:8000"
+        echo "  API:      http://localhost:8001"
     else
         echo "Failed to start tunnel"
         return 1
