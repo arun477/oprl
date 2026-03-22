@@ -6,7 +6,7 @@ BASE_URL = "http://localhost:8001"
 res = requests.post(f"{BASE_URL}/reset", json={})
 print("Reset:", res.json())
 
-# Step with correct action format
+# Step
 messages = ["Hello, World!", "Testing echo", "Final message"]
 for msg in messages:
     res = requests.post(f"{BASE_URL}/step", json={
@@ -17,5 +17,16 @@ for msg in messages:
         }
     })
     data = res.json()
-    print(f"Sent: '{msg}'")
-    print(f"  → Raw response: {data}")  # print everything first to see structure
+    obs = data["observation"]
+    echoed = obs["result"]["data"]        # the echoed text
+    is_error = obs["result"]["is_error"]  # error flag
+
+    print(f"Sent:   '{msg}'")
+    print(f"Echoed: '{echoed}'")
+    print(f"Error:  {is_error}")
+    print(f"Done:   {data['done']}")
+    print()
+
+# Final state
+state = requests.get(f"{BASE_URL}/state").json()
+print("Final state:", state)
